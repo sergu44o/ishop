@@ -4,6 +4,7 @@ namespace app\controllers;
 
 use app\models\Products;
 use Yii;
+use yii\db\Query;
 use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\Response;
@@ -62,9 +63,28 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-//        $model = new Products();
+        $rings = new Query();
+        $earrings = new Query();
+        $necklaces = new Query();
+        $products = array_merge(
+            $rings
+                ->from('rings')
+                ->orderBy('timestamp DESC')
+                ->limit(10)
+                ->all(),
+            $earrings
+                ->from('earrings')
+                ->orderBy('timestamp DESC')
+                ->limit(10)
+                ->all(),
+            $necklaces
+                ->from('necklaces')
+                ->orderBy('timestamp DESC')
+                ->limit(10)
+                ->all());
+        shuffle($products);
         
-        return $this->render('index');
+        return $this->render('index', ['products' => $products]);
     }
     
     /**

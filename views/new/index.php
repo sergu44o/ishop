@@ -1,31 +1,12 @@
 <?php
 
-/* @var $model app\models\Products */
+/* @var $products array */
 
 ?>
-<div id="slider">
-    <ul>
-        <li style="background-image: url(/web/images/0.jpg)">
-            <h3>Make your life better</h3>
-            <h2>Genuine diamonds</h2>
-            <a href="#" class="btn-more">Read more</a>
-        </li>
-        <li class="purple" style="background-image: url(/web/images/01.jpg)">
-            <h3>She will say “yes”</h3>
-            <h2>engagement ring</h2>
-            <a href="#" class="btn-more">Read more</a>
-        </li>
-        <li class="yellow" style="background-image: url(/web/images/02.jpg)">
-            <h3>You deserve to be beauty</h3>
-            <h2>golden bracelets</h2>
-            <a href="#" class="btn-more">Read more</a>
-        </li>
-    </ul>
-</div>
 <div id="body">
     <div class="container">
         <div class="last-products">
-            <h2>Last added products</h2>
+            <h2>New products</h2>
             <section class="products">
                 <? foreach ($products as $product): ?>
                     <article>

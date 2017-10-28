@@ -13,13 +13,20 @@ use yii\base\Model;
  */
 class LoginForm extends Model
 {
-    public $username;
-    public $password;
-    public $rememberMe = true;
+    public $user_login;
+    public $user_pass;
+    public $remember_me = true;
 
     private $_user = false;
-
-
+    
+    public function attributeLabels()
+    {
+        return [
+            'user_login' => 'Login',
+            'user_pass' => 'Password',
+        ];
+    }
+    
     /**
      * @return array the validation rules.
      */
@@ -27,11 +34,11 @@ class LoginForm extends Model
     {
         return [
             // username and password are both required
-            [['username', 'password'], 'required'],
+            [['user_login', 'user_pass'], 'required'],
             // rememberMe must be a boolean value
-            ['rememberMe', 'boolean'],
+            ['remember_me', 'boolean'],
             // password is validated by validatePassword()
-            ['password', 'validatePassword'],
+            'password' => ['user_pass', 'validatePassword'],
         ];
     }
 
@@ -47,7 +54,7 @@ class LoginForm extends Model
         if (!$this->hasErrors()) {
             $user = $this->getUser();
 
-            if (!$user || !$user->validatePassword($this->password)) {
+            if (!$user || !$user->validatePassword($this->user_pass)) {
                 $this->addError($attribute, 'Incorrect username or password.');
             }
         }
@@ -60,7 +67,8 @@ class LoginForm extends Model
     public function login()
     {
         if ($this->validate()) {
-            return Yii::$app->user->login($this->getUser(), $this->rememberMe ? 3600*24*30 : 0);
+            $this->updateKey();
+            return Yii::$app->user->login($this->getUser(), $this->remember_me ? 3600*24*30 : 0);
         }
         return false;
     }
@@ -73,9 +81,16 @@ class LoginForm extends Model
     public function getUser()
     {
         if ($this->_user === false) {
-            $this->_user = User::findByUsername($this->username);
+            $this->_user = User::findByUsername($this->user_login);
         }
 
         return $this->_user;
+    }
+    
+    public function updateKey(){
+        if ($this->_user === false) {
+            $this->_user->auth_key = Yii::$app->security->generateRandomString();
+            $this->_user->save();
+        }
     }
 }

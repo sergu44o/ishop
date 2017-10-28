@@ -213,6 +213,14 @@ a:hover {
 	background-position: -40px 0;
 }
 
+#header .right-links span.ico-signin {
+	background: url(../images/ico_signin.png) no-repeat;
+}
+
+#header .right-links span.ico-signup {
+	background: url(../images/ico_signup.png) no-repeat;
+}
+
 #header .right-links li {
 	float: left;
 	color: #656567;
@@ -287,6 +295,7 @@ a:hover {
 
 #body {
 	padding: 48px 0 31px;
+	min-height: 50vh;
 }
 
 #slider {
@@ -455,6 +464,10 @@ a:hover {
 
 .products article a img{
 	height: 200px;
+}
+
+.products article img{
+	height: 210px;
 }
 
 .last-products {
@@ -869,7 +882,6 @@ h1 {
 	height: 570px;
 	margin: 13px 130px 0 0;
 	border: 1px solid #d3d3d3;
-	background-color: #fff;
 }
 
 .product .image img {
@@ -1126,6 +1138,16 @@ h1 {
 	font-size: 14px;
 	display: block;
 	line-height: 21px;
+}
+
+form .checkbox{
+	left: 0 !important;
+	position: relative !important;
+	display: inline !important;
+	vertical-align: top;
+	width: 21px;
+	height: 21px;
+
 }
 
 #sidebar .widget:last-child {

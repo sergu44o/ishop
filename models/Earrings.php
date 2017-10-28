@@ -1,20 +1,15 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Serg
- * Date: 02.08.2017
- * Time: 17:54
- */
+
 
 namespace app\models;
 
 
 use yii\db\ActiveRecord;
 
-class Rings extends ActiveRecord
+class Earrings extends ActiveRecord
 {
     public static function upd(){
-        $rings = Rings::find()->all();
+        $rings = Earrings::find()->all();
         foreach ($rings as $ring)
         {
             $rand = rand(0, 100);

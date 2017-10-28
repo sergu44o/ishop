@@ -4,9 +4,6 @@
 /* @var $content string */
 
 use yii\helpers\Html;
-use yii\bootstrap\Nav;
-use yii\bootstrap\NavBar;
-use yii\widgets\Breadcrumbs;
 use app\assets\AppAsset;
 
 AppAsset::register($this);
@@ -27,31 +24,29 @@ AppAsset::register($this);
     
     <header id="header">
         <div class="container">
-            <a href="/index.php" id="logo" title="Diana’s jewelry">Diana’s jewelry</a>
+            <a href="/" id="logo" title="Diana’s jewelry">Diana’s jewelry</a>
             <div class="right-links">
                 <ul>
-                    <li><a href="/index.php"><span class="ico-products"></span>3 products, $4 500.00</a></li>
-                    <li><a href="#"><span class="ico-account"></span>Account</a></li>
-                    <li><a href="#"><span class="ico-signout"></span>Sign out</a></li>
+                    <? if (Yii::$app->user->isGuest): ?>
+                        <li><a href="/signin"><span class="ico-signin"></span>Sign in</a></li>
+                        <li><a href="/signup"><span class="ico-signup"></span>Sign up</a></li>
+                    <? else: ?>
+                        <li><a href="/"><span class="ico-products"></span>3 products, $4 500.00</a></li>
+                        <li><a href="/"><span class="ico-account"></span>Account</a></li>
+                        <li><a href="/signout"><span class="ico-signout"></span>Sign out</a></li>
+                    <? endif; ?>
                 </ul>
             </div>
         </div>
     </header>
 
 <article>
-    <nav id="menu">
-        <div class="container">
-            <div class="trigger"></div>
-            <ul>
-                <li><a href="new collection">New collection</a></li>
-                <li><a href="necklaces">necklaces</a></li>
-                <li><a href="earrings">earrings</a></li>
-                <li><a href="rings">Rings</a></li>
-                <li><a href="gift cards">Gift cards</a></li>
-                <li><a href="promotions">Promotions</a></li>
-            </ul>
-        </div>
-    </nav>
+    
+    <? if (Yii::$app->controller->id != 'user'): ?>
+        
+        <?= $this->render('menu') ?>
+
+    <? endif; ?>
 
 <?= $content ?>
 
@@ -98,7 +93,6 @@ AppAsset::register($this);
     </div>
 </footer>
 
-<!--<script>window.jQuery || document.write("<script src='js/jquery-1.11.1.min.js'>\x3C/script>")</script>-->
 <?php $this->endBody() ?>
 </body>
 </html>

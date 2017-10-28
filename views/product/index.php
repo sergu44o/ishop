@@ -1,6 +1,6 @@
 <?php
-include ROOT . "/views/Layouts/header.php";
-echo "BBBBBBBBB";
+/* @var $product \app\controllers\ProductController->ring */
+/* @var $product_category string */
 ?>
 
   <div id="breadcrumbs">
@@ -18,12 +18,11 @@ echo "BBBBBBBBB";
   <div class="container">
     <div id="content" class="full">
       <div class="product">
-        <div class="image">
-          <img src="images/5.jpg" alt="">
+        <div class="image" style="background: url(/images/<?=$product_category . '/' . $product->name?>) center center no-repeat; background-size: cover">
         </div>
         <div class="details">
           <h1>Lorem ipsum dolor</h1>
-          <h4>$990.00</h4>
+          <h4>$<?=$product->price?></h4>
           <div class="entry">
             <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.</p>
             <div class="tabs">
@@ -58,7 +57,3 @@ echo "BBBBBBBBB";
   <!-- / container -->
 </div>
 <!-- / body -->
-
-<?php
-require ROOT . "/views/Layouts/footer.php";
-?>

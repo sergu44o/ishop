@@ -47,8 +47,12 @@ $config = [
             'enableStrictParsing' => false,
             'rules' => [
                 'index.php' => '',
-                '<action:(necklaces|rings|earrings)><delim:/?><rest:\d*>' => 'products/index',
-                
+                '<action:(necklaces|rings|earrings)><delim:/?>' => 'products/index',
+                'new' => 'new/index',
+                '<action:(necklaces|rings|earrings)><delim:/?><id:\d+>' => 'product/<action>',
+                'signin' => 'user/signin',
+                'signout' => 'user/signout',
+                'signup' => 'user/signup',
             ],
         ],
         
