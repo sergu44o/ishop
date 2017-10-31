@@ -5,6 +5,7 @@
 
 use yii\helpers\Html;
 use app\assets\AppAsset;
+use yii\helpers\Url;
 
 AppAsset::register($this);
 ?>
@@ -28,12 +29,12 @@ AppAsset::register($this);
             <div class="right-links">
                 <ul>
                     <? if (Yii::$app->user->isGuest): ?>
-                        <li><a href="/signin"><span class="ico-signin"></span>Sign in</a></li>
-                        <li><a href="/signup"><span class="ico-signup"></span>Sign up</a></li>
+                        <li><a href="<?=Url::to(['user/signin'])?>"><span class="ico-signin"></span>Sign in</a></li>
+                        <li><a href="<?=Url::to(['user/signup'])?>"><span class="ico-signup"></span>Sign up</a></li>
                     <? else: ?>
                         <li><a href="/"><span class="ico-products"></span>3 products, $4 500.00</a></li>
                         <li><a href="/"><span class="ico-account"></span>Account</a></li>
-                        <li><a href="/signout"><span class="ico-signout"></span>Sign out</a></li>
+                        <li><a href="<?=Url::to(['user/signout'])?>"><span class="ico-signout"></span>Sign out</a></li>
                     <? endif; ?>
                 </ul>
             </div>

@@ -1,9 +1,6 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: Serg
- * Date: 02.08.2017
- * Time: 15:42
+ * @var $params \app\models\SortOptions
  */
 
 namespace app\models;
@@ -17,51 +14,32 @@ use yii;
 
 class Products extends Model
 {
-    private $query;
-    /*public function dbUpdate()
-        {
-            foreach (Rings::find()->each() as $ring){
-                $timeRange = rand(1, 3600*24*365);
-                $newTimestamp = (new Query())
-                    ->select(["(NOW() - INTERVAL $timeRange SECOND) AS time"])
-                    ->scalar();
-                $update = Rings::findOne($ring['id']);
-                $update->timestamp = $newTimestamp;
-                $update->save();
-            }
-        
-            return $update;
-        }*/
+    public $list;
+    public $pages;
     
-    public function getProducts($category, $per_page, $sort, string $condition, $min_price, $max_price)
+    public function getProducts(SortOptions $params)
     {
-        $sort = strtolower($sort) == 'date' ? 'timestamp' : $sort;
-        $condition = empty($condition) ? null : explode('+', $condition);
+        $sort = strtolower($params->getSort()) == 'date' ? 'timestamp' : $params->getSort();
+        $condition = empty($params->getCondition()) ? null : explode('+', $params->getCondition());
         $query = new Query();
         $products = $query
-            ->from($category)
+            ->from($params->getCategory())
             ->where(
                 [
                     'and',
-                    ['>', 'price', $min_price],
-                    ['<', 'price', $max_price],
+                    ['>', 'price', $params->getMinprice()],
+                    ['<', 'price', $params->getMaxprice()],
                     ['condition' => $condition],
                 ])
             ->orderBy($sort);
         $products_count = clone $products;
+    
+        $this->pages = new Pagination([ 'totalCount' => $products_count->count() ]);
+        $this->pages->setPageSize($params->getPagesize());
         
-        $pages = new Pagination([ 'totalCount' => $products_count->count() ]);
-        $pages->setPageSize($per_page);
-        
-        $products = $products->offset($pages->offset)
-                             ->limit($pages->limit)
+        $this->list = $products->offset($this->pages->offset)
+                             ->limit($this->pages->limit)
                              ->all();
         
-        return [ 'products' => $products, 'pages' => $pages ];
-    }
-    
-    public function getPages()
-    {
-    
     }
 }

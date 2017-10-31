@@ -1,9 +1,8 @@
 <?php
-/* @var $array array */
-/* @var $category string */
-/* @var $sort string */
-/* @var $condition string */
-/* @var $per_page int */
+/* @var $products \app\models\Products */
+/* @var $params \app\models\SortOptions */
+
+use yii\helpers\Url;
 
 ?>
 
@@ -11,7 +10,7 @@
     <div class="container">
         <ul>
             <li><a href="/">Home</a></li>
-            <li><?=($category)?></li>
+            <li><?=$params->getCategory()?></li>
         </ul>
     </div>
     <!-- / container -->
@@ -19,30 +18,30 @@
 
 <div id="body">
     <div class="container">
-        <?=\yii\widgets\LinkPager::widget(['pagination' => $array['pages']])?>
+        <?=\yii\widgets\LinkPager::widget(['pagination' => $products->pages])?>
         <div class="products-wrap">
             <aside id="sidebar">
                 <div class="widget">
                     <h3>Products per page:</h3>
                     <fieldset>
-                        <input <?= $per_page == 9 ? "checked" : "" ?> name="per-page"  type="checkbox"> <label>9</label>
-                        <input <?= $per_page == 18 ? "checked" : "" ?> name="per-page" type="checkbox"> <label>18</label>
-                        <input <?= $per_page == 36 ? "checked" : "" ?> name="per-page" type="checkbox"> <label>36</label>
+                        <input <?= $params->getPagesize() == 9 ? "checked" : "" ?> name="per-page"  type="checkbox"> <label>9</label>
+                        <input <?= $params->getPagesize() == 18 ? "checked" : "" ?> name="per-page" type="checkbox"> <label>18</label>
+                        <input <?= $params->getPagesize() == 36 ? "checked" : "" ?> name="per-page" type="checkbox"> <label>36</label>
                     </fieldset>
                 </div>
                 <div class="widget">
                     <h3>Sort by:</h3>
                     <fieldset>
-                        <input <?= $sort == 'popularity'? "checked" : "" ?>  type="checkbox" name="sort"> <label>Popularity</label>
-                        <input <?= $sort == 'date' ? "checked" : "" ?> type="checkbox" name="sort"> <label>Date</label>
-                        <input <?= $sort == 'price' ? "checked" : "" ?> type="checkbox" name="sort"> <label>Price</label>
+                        <input <?= $params->getSort() == 'popularity'? "checked" : "" ?>  type="checkbox" name="sort"> <label>Popularity</label>
+                        <input <?= $params->getSort() == 'date' ? "checked" : "" ?> type="checkbox" name="sort"> <label>Date</label>
+                        <input <?= $params->getSort() == 'price' ? "checked" : "" ?> type="checkbox" name="sort"> <label>Price</label>
                     </fieldset>
                 </div>
                 <div class="widget">
                     <h3>Condition:</h3>
                     <fieldset>
-                        <input <?= strpos($condition,'new') !== false ? "checked" : "" ?> type="checkbox" name="condition"> <label>New</label>
-                        <input <?= strpos($condition,'used') !== false ? "checked" : "" ?> type="checkbox" name="condition"> <label>Used</label>
+                        <input <?= strpos($params->getCondition(),'new') !== false ? "checked" : "" ?> type="checkbox" name="condition"> <label>New</label>
+                        <input <?= strpos($params->getCondition(),'used') !== false ? "checked" : "" ?> type="checkbox" name="condition"> <label>Used</label>
                     </fieldset>
                 </div>
                 <div class="widget">
@@ -54,11 +53,11 @@
             </aside>
             <div id="content">
                 <section class="products">
-                    <?php foreach ($array['products'] as $product): ?>
+                    <?php foreach ($products->list as $product): ?>
                         <article>
-                            <a href="<?=$category . '/' . $product['id']?>"><img src="<?=$product['file']?>" alt=""></a>
-                            <h3><a href="<?=$category . '/' . $product['id']?>">Lorem ipsum dolor</a></h3>
-                            <h4><a href="<?=$category . '/' . $product['id']?>"><?=$product['price']?> $</a></h4>
+                            <a href="<?=Url::to([$params->getCategory() . '/' . $product['id']])?>"><img src="<?=$product['file']?>" alt=""></a>
+                            <h3><a href="<?=Url::to([$params->getCategory() . '/' . $product['id']])?>">Lorem ipsum dolor</a></h3>
+                            <h4><a href="<?=Url::to([$params->getCategory() . '/' . $product['id']])?>"><?=$product['price']?> $</a></h4>
                             <a href="cart.html" class="btn-add">Add to cart</a>
                         </article>
                     <?php endforeach; ?>
@@ -66,7 +65,7 @@
             </div>
             <!-- / content -->
         </div>
-        <?=\yii\widgets\LinkPager::widget(['pagination' => $array['pages']])?>
+        <?=\yii\widgets\LinkPager::widget(['pagination' => $products->pages])?>
     </div>
     <!-- / container -->
 </div><!-- / body -->

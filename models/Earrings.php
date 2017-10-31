@@ -8,6 +8,10 @@ use yii\db\ActiveRecord;
 
 class Earrings extends ActiveRecord
 {
+    public static function tableName(){
+        return '{{Earrings}}';
+    }
+    
     public static function upd(){
         $rings = Earrings::find()->all();
         foreach ($rings as $ring)

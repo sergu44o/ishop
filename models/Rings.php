@@ -13,6 +13,10 @@ use yii\db\ActiveRecord;
 
 class Rings extends ActiveRecord
 {
+    public static function tableName(){
+        return '{{Rings}}';
+    }
+    
     public static function upd(){
         $rings = Rings::find()->all();
         foreach ($rings as $ring)

@@ -44,15 +44,12 @@ $config = [
         'urlManager' => [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
-            'enableStrictParsing' => false,
             'rules' => [
                 'index.php' => '',
-                '<action:(necklaces|rings|earrings)><delim:/?>' => 'products/index',
+                '<action:necklaces|rings|earrings><delim:/?>' => 'products/index',
                 'new' => 'new/index',
-                '<action:(necklaces|rings|earrings)><delim:/?><id:\d+>' => 'product/<action>',
-                'signin' => 'user/signin',
-                'signout' => 'user/signout',
-                'signup' => 'user/signup',
+                '<action:necklaces|rings|earrings>/<id:\d+>' => 'product/<action>',
+                '<action:signin|signout|signup>' => 'user/<action>',
             ],
         ],
         
