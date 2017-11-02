@@ -2,6 +2,7 @@
 /* @var $products \app\models\Products */
 /* @var $params \app\models\SortOptions */
 
+use yii\bootstrap\Html;
 use yii\helpers\Url;
 
 ?>
@@ -24,9 +25,10 @@ use yii\helpers\Url;
                 <div class="widget">
                     <h3>Products per page:</h3>
                     <fieldset>
-                        <input <?= $params->getPagesize() == 9 ? "checked" : "" ?> name="per-page"  type="checkbox"> <label>9</label>
-                        <input <?= $params->getPagesize() == 18 ? "checked" : "" ?> name="per-page" type="checkbox"> <label>18</label>
-                        <input <?= $params->getPagesize() == 36 ? "checked" : "" ?> name="per-page" type="checkbox"> <label>36</label>
+                        <? foreach ([9,18,36] as $page_size): ?>
+                            <?= Html::checkbox('per-page',$params->getPagesize() == $page_size) ?>
+                            <?= Html::label($page_size,'per-page') ?>
+                        <? endforeach ?>
                     </fieldset>
                 </div>
                 <div class="widget">
@@ -72,7 +74,7 @@ use yii\helpers\Url;
 <script>
     $(document).ready(function () {
         var params = {};
-        var checked_inputs = $('input:checked');
+        var price_range_pressed;
         var slider = $('div#price-range');
         slider.slider({min:1, max:500});
         var full_url = window.location.href;
@@ -116,13 +118,20 @@ use yii\helpers\Url;
             window.location.href = url;
         });
         
-        $('div#price-range a').on("mouseup", function () {
-            price_range = $('div#price-range').text().split("$");
-            params.minprice = price_range[1];
-            params.maxprice = price_range[2];
-            url += $.param(params);
-            url = url.replace(/\%\d+B/g, '%2B');
-            window.location.href = url;
+        $('div#price-range a')
+            .on("mousedown", function () {
+                price_range_pressed = true;
+            });
+        $('html').on("mouseup", function () {
+            if (price_range_pressed) {
+                price_range = $('div#price-range').text().split("$");
+                params.minprice = price_range[1];
+                params.maxprice = price_range[2];
+                url += $.param(params);
+                url = url.replace(/\%\d+B/g, '%2B');
+                price_range_pressed = false;
+                window.location.href = url;
+            }
         })
 
     })

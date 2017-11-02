@@ -9,8 +9,6 @@ namespace app\models;
 use yii\base\Model;
 use yii\db\Query;
 use yii\data\Pagination;
-use app\models\Rings;
-use yii;
 
 class Products extends Model
 {
@@ -19,23 +17,23 @@ class Products extends Model
     
     public function getProducts(SortOptions $params)
     {
-        $sort = strtolower($params->getSort()) == 'date' ? 'timestamp' : $params->getSort();
-        $condition = empty($params->getCondition()) ? null : explode('+', $params->getCondition());
+        $sort = strtolower($params->sort) == 'date' ? 'timestamp' : $params->sort;
+        $condition = empty($params->condition) ? null : explode('+', $params->condition);
         $query = new Query();
         $products = $query
-            ->from($params->getCategory())
+            ->from($params->category)
             ->where(
                 [
                     'and',
-                    ['>', 'price', $params->getMinprice()],
-                    ['<', 'price', $params->getMaxprice()],
+                    ['>', 'price', $params->min_price],
+                    ['<', 'price', $params->max_price],
                     ['condition' => $condition],
                 ])
             ->orderBy($sort);
         $products_count = clone $products;
     
         $this->pages = new Pagination([ 'totalCount' => $products_count->count() ]);
-        $this->pages->setPageSize($params->getPagesize());
+        $this->pages->setPageSize($params->per_page);
         
         $this->list = $products->offset($this->pages->offset)
                              ->limit($this->pages->limit)

@@ -18,7 +18,7 @@ class ProductsController extends Controller
      */
     public function actionIndex()
     {
-        $params = SortOptions::getParams();
+        $params = SortOptions::init();
         
         $products = new Products();
         $products->getProducts($params);
